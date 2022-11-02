@@ -1,0 +1,10 @@
+Push-Pull(output)
+000
+Push-Pull(input)
+001
+Open-Drain(type1)
+010
+Open-Drain(type2)
+011
+High Impedance
+100
