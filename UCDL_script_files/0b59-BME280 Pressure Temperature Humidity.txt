@@ -1,0 +1,27 @@
+
+Function1(Pin Configuration){
+	Pin(1, GND, 0V,Open-Drain(type2));
+	Pin(2, VDD,3.3V,Open-Drain(type2)
+	Pin(3, I2C, DW/DR,Open-Drain(type1));
+	Pin(4, I2C, CLK,Open-Drain(type1));
+	Pin(5, GND,0V,Open-Drain(type1));
+	Pin(6, VDD, 3.3V,Open-Drain(type2));
+	Pin(7, GND, 0V,Open-Drain(type2));
+	Pin(8, VDD, 3.3V,Open-Drain(type2));
+}
+
+Function2(Data Computation){
+DF(Y1, Pressure, (X1*pow(2,12))+(X2*pow(2,4))+(X3/pow(2,4)), Pa);
+DF(Y2, Temperature, (X4*pow(2,12))+(X5*pow(2,4))+(X6/pow(2,4)), C);
+DF(Y3, Humidity, (X7*pow(2,8))+X8, RH);
+}
+
+Function3(Config Sensor){
+	DW(3,0xEC,0xF2,1,0x01),+100us;
+	DW(3,0xEC,0xF4,2,0x24,0x01),+200us;
+	DW(3,0xEC,0xF4,1,0x27),+100us;
+}
+
+Function4(Read Register Data){
+	DR(3,0xED,0xF7,8,X1,X2,X3,X4,X5,X6,X7,X8),+200ms;
+}
