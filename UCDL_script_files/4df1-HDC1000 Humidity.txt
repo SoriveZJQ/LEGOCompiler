@@ -1,0 +1,24 @@
+ 
+Function1(Pin Configuration){
+    PIN(1, VDD, 3.3V, Open-Drain(type2));
+    PIN(2, I2C, CLK, Open-Drain(type1));
+    PIN(3, I2C, DR/DW, Open-Drain(type1));
+    PIN(4, SR, Int, Open-Drain(type1));
+    PIN(5, GND, 0V, Open-Drain(type2));
+}
+ 
+Function2(Data Computation){
+    DF(Y1, T, ((X1<<8)+X2)/65536*165-40, Centigrade);
+    DF(Y2, RH, ((X3<<8)+X4)/65536, %);
+    DF(Y3, ManufacturerID, X5<<8+X6, null);
+}
+
+Function3(Read Temprature and Relative Humidity Register Data){
+    DW(3, 0x80, 0x00, 0), +7ms; 
+    DR(3, 0x81, 4, X1, X2, X3, X4), +100us;
+}
+
+Function4(Read Manufacturer ID){
+    DR(3, 0x81, 0xFE, 2, X5, X6), +100us;
+}
+

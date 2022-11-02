@@ -1,0 +1,36 @@
+ 
+Function1(Pin Configuration){
+	Pin(1, VDD, 3.3V,Open-Drain(type2));
+	Pin(2, GND, 0V,Open-Drain(type2));
+	Pin(3, SMBus, CLK,Open-Drain(type1));
+	Pin(4, SMBus, DR/DW,Open-Drain(type1));
+}
+
+Function2(Data Computation){
+DF(Y1,C0,(X1&0x7F)>>4, Null);
+DF(Y2,Chord Value0,16.5*(pow(2,C0)-1),Null);
+DF(Y3,Step Value0,pow(2,C0), Null);
+DF(Y4,Step Number0,(X1<<4)/16, Null);
+DF(Y5,CH0,((Chord Value0)+(Step Value0)*(Step Number0)), Null);
+DF(Y6,C1,(X2&0x7F)>>4, Null);
+DF(Y7,Chord Value1,16.5*(pow(2,C1)-1),Null);
+DF(Y8,Step Value1,pow(2,C1), Null);
+DF(Y9,Step Number1,(X2<<4)/16, Null);
+DF(Y10,CH1,((Chord Value1)+(Step Value1)*(Step Number1)), Null);
+DF(Y11,R,CH1 /(CH0-CH1),Null);
+DF(Y12,Light Level,(CH0-CH1)*0.39*pow(e,-0.18*pow(R,2)),Lux);
+}
+
+Function3(Read ADC Channel Data){
+	DW(4,0x72,0x18,0),+4ms;
+	DR(4,0x73,0x43,1,X1),+400ms;
+	DR(4,0x73,0x83,1,X2),+400ms;
+}
+
+
+
+
+
+
+
+

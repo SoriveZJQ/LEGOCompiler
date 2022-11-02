@@ -1,0 +1,24 @@
+ 
+Function1(Pin Configuration){
+	Pin(1, VDD, 3.3V,Open-Drain(type2));
+	Pin(2, SR, Int,Open-Drain(type1));
+	Pin(3, GND,0V,Open-Drain(type2));
+	Pin(4, SR, Int,Open-Drain(type1));
+	Pin(5, SMBus, DR/DW,Open-Drain(type1));
+	Pin(6, SMBus, Clock,Open-Drain(type1));
+}
+
+Function2(Data Computation){
+DF(Y1,Local Temperature, X1, C);
+DF(Y2, Remote Temperature, (X2>>6)*0.25+X3,C);
+}
+
+
+Function3(Read Local Temprature Register Data){
+	DR(5, 0x99, 0x00, 1, X1), +64ms;
+}
+
+Function4(Read Remote Temprature Register Data){
+	DR(5, 0x99, 0x01, 1, X2), +100us;
+	DR(5, 1, 0x99, 0x10, 1, X3), +125ms;
+}

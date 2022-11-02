@@ -1,0 +1,28 @@
+ 
+Function1(Pin Configuration){
+    PIN(1, I2C, DW/DR, Open-Drain(type1));
+    PIN(2, VDD, 3.5V, Open-Drain(type2));
+    PIN(3, GND, 0V, Open-Drain(type2));
+    PIN(4, I2C, CLK, Open-Drain(type1));
+}
+
+
+Function2(Data Computation){
+    DF(Y1, Flow Velocity, X1<<8+X2, ul/min);
+    DF(Y2, CRC, X3, null);
+}
+
+Function3(Read Flow Data){
+
+  DW(1, 0x10, 0x36, 1, 0x08),+600us;
+  DR(1, NOADDR, 0x11, 3, X1, X2, X3),+100us;
+
+}
+
+Function4(Soft Reset){
+
+  DW(1, 0x10, 0x00, 1, 0x06),+30ms;
+
+}
+
+

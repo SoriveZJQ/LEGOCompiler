@@ -1,0 +1,85 @@
+ 
+Function1(Pin Configuration){
+    PIN(1, GND, 0V, Open-Drain(type2));
+    PIN(2, GND, 0V, Open-Drain(type2));
+    PIN(3, GND, 0V, Open-Drain(type2));
+    PIN(4, SR, Int, Open-Drain(type1));
+    PIN(5, VDD, 3.3V, Open-Drain(type2));
+    PIN(6, GND, 0V, Open-Drain(type2));
+    PIN(7, GND, 0V, Open-Drain(type2));
+    PIN(8, VDD, 3.3V, Open-Drain(type2));
+    PIN(9, SR, Int, Open-Drain(type1));
+    PIN(10, VDD, 3.3V, Open-Drain(type1));
+    PIN(11, I2C, CLK, Open-Drain(type1));
+    PIN(12, I2C, DW/DR, Open-Drain(type1));
+}
+
+Function2(Data Computation){
+    DF(Y1, Step Count, X1<<8+X2, null);
+    DF(Y2, Temperature, (X3<<8+X4)/pow(2,9), degree C);
+    DF(Y3, MAG_X, (X6<<8+X5)/16, uT);
+    DF(Y4, MAG_Y, (X8<<8+X7)/16, uT);
+    DF(Y5, MAG_Z, (X10<<8+X9)/16, uT);
+    DF(Y6, GYR_X, (X14<<8+X13)/16.4, Degree/s);
+    DF(Y7, GYR_Y, (X16<<8+X15)/16.4, Degree/s);
+    DF(Y8, GYR_Z, (X18<<8+X17)/16.4, Degree/s);
+    DF(Y9, ACC_X, (X20<<8+X19)/16384, G);
+    DF(Y10, ACC_Y, (X22<<8+X21)/16384, G);
+    DF(Y11,  ACC_Z, (X24<<8+X23)/16384, G);
+    DF(Y12, ChipID, X25, null);
+}
+
+Function3(Soft Reset){
+
+    DW(12, 0xD0, 0x7E, 1, 0xB6),+80ms;
+
+}
+
+Function4(Step Counter Reset){
+
+    DW(12, 0xD0, 0x7E, 1, 0xB2),+10ms;
+
+}
+
+Function5(Int Reset){
+
+    DW(12, 0xD0, 0x7E, 1, 0xB1),+10ms;
+
+}
+
+Function5(Read Step Counter){
+
+    DR(12, 0xD1, 0x78, 2, X1, X2),+200us;
+
+}
+
+Function6(Read Temperature Data){
+
+    DR(12, 0xD1, 0x20, 2, X3, X4),+200us;
+
+}
+
+Function7(Read Data){
+
+    DR(12, 0xD1, 0x04, 20, X5, X6, X7, X8, X9, X10, X11, X12, X13, X14, X15, X16, X17, X18, X19, X20, X21, X22, X23, X24),+2ms;
+
+}
+
+Function8(Set Normal Mode){
+
+    DW(12, 0xD0, 0x7E, 1, 0x11),+4ms;
+    DW(12, 0xD0, 0x7E, 1, 0x15),+80ms;
+    DW(12, 0xD0, 0x7E, 1, 0x19),+1ms;
+
+}
+
+Function6(Read Chip ID){
+
+    DR(12, 0xD1, 0x00, 1, X25),+200us;
+
+}
+
+
+
+
+

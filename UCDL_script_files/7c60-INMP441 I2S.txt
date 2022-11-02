@@ -1,0 +1,13 @@
+ 
+Function1(Pin Configuration){
+    PIN(1, I2S, SCK, Standard, 24Bits, 32Frame, 8kHz);
+    PIN(2, I2S, DR);
+    PIN(3, I2S, WS);
+    PIN(4, CW, CW, Open-Drain(type2));
+    PIN(5, GND, 0V, Open-Drain(type2));
+    PIN(6, VDD, 3.3V, Open-Drain(type2));
+}
+
+Function2(Get I2S Data){
+    DR(2, I2S, DIRECT), +1s;
+}

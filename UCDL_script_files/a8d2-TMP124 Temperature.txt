@@ -1,0 +1,23 @@
+ 
+Function1(Pin Configuration){
+  PIN(1, SPI,  DW, Push-Pull(output));
+  PIN(2, SPI,  DR, Push-Pull(input));
+  PIN(3, SPI, CLK, Push-Pull(output));
+  PIN(4, GND, 0V, Open-Drain(type2));
+  PIN(5, SR, Int, Open-Drain(type1));
+  PIN(7, CW, CS, Push-Pull(output));
+  PIN(8, VDD, 3.3V, Open-Drain(type2));
+}
+
+Function2(Data Computation){
+  DF(Y1, temp1, X1<<4+X2>>4, null);
+  DF(Y2, temp2, (y=temp1,temp1<2048;y=temp1-4096,temp1>=2048), null);
+  DF(Y3, Temperature, temp2*0.0625, degree C);
+}
+
+Function3(Read Temprature Register Data){
+    CW(7, L),+2us;
+    DR(2, 2, X1, X2),+4us;
+    CW(7, H),+250ms;
+}
+ 

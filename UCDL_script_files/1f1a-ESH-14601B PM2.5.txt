@@ -1,0 +1,14 @@
+ 
+Function1(Pin Configuration){
+    PIN(1, GND, 0V, Open-Drain(type2));
+    PIN(2, ADC, 5V);
+    PIN(3, VCC, 5V, Open-Drain(type2));
+}
+
+Function2(Data Computation){
+    DF(Y1, PM2.5 level, 0.6*(pow(X1,8)+X2), ug/m3);
+}
+
+Function3(Read PM2.5 level){
+    DR(2, ADC,X1, X2), +3ms;
+}

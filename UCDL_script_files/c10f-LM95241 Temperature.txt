@@ -1,0 +1,55 @@
+ 
+Function1(Pin Configuration){
+    PIN(1, GND, 0V, Open-Drain(type2));
+    PIN(2, VDD, 3.3V, Open-Drain(type2));
+    PIN(3, SMBus, DW/DR, Open-Drain(type1));
+    PIN(4, SMBus, CLK, Open-Drain(type1));
+}
+
+Function2(Data Computation){
+    DF(Y1, Z1, X1+(X4>>6), null);
+    DF(Y2, Local Temperature, (y=Z1*0.25,Z1<512;y=(Z1-1024)*0.25,Z1>=512), degree C);
+    DF(Y3, Z2, X2+(X5>>5), null);
+    DF(Y4, Remote Temperature1, (y=Z2*0.125,Z2<1024;y=(Z2-2048)*0.125,Z2>=1024), degree C);
+    DF(Y5, Z3, X3+(X6>>5)*0.125, null);
+    DF(Y6, Remote Temperature2, (y=Z3*0.125,Z3<1024;y=(Z3-2048)*0.125,Z3>=1024), degree C);
+}
+
+Function3(Read Temprature Register Data){
+
+    DR(3, 0x57, 0x10, 1, X1),+100us;
+    DR(3, 0x57, 0x11, 1, X2),+100us;
+    DR(3, 0x57, 0x12, 1, X3),+100us;
+    DR(3, 0x57, 0x20, 1, X4),+100us;
+    DR(3, 0x57, 0x21, 1, X5),+100us;
+    DR(3, 0x57, 0x22, 1, X6),+80ms;
+
+}
+
+Function4(Config Remote Diode1 On){
+   
+    DW(3, 0x56, 0x07, 1, 0x01),+100us;
+    DW(3, 0x56, 0x30, 1, 0x01),+100us;
+    
+}
+
+Function5(Config Remote Diode2 On){
+    
+    DW(3, 0x56, 0x07, 1, 0x10),+100us;
+    DW(3, 0x56, 0x30, 1, 0x04),+100us;
+
+}
+
+Function6(Config Remote Diode1,2 On){
+    
+    DW(3, 0x56, 0x07, 1, 0x11),+100us;
+    DW(3, 0x56, 0x30, 1, 0x05),+100us;
+    
+}
+
+Function7(Config Remote Diode1,2 Off){
+    
+    DW(3, 0x56, 0x07, 1, 0x00),+100us;
+    DW(3, 0x56, 0x30, 1, 0x00),+100us;
+
+}

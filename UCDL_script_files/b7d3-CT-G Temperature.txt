@@ -1,0 +1,29 @@
+ 
+Function1(Pin Configuration){
+    PIN(1, VDD, 5V, Open-Drain(type2));
+    PIN(2, GND, 0V, Open-Drain(type2));
+    PIN(3, RS485, DR/DW, D-); 
+    PIN(4, RS485, DR/DW, D+);
+}
+
+Function2(Data Computation){
+    DF(Y1, Object Temperature, (X1<<8+X2)*0.02-273.15, Degree);
+    DF(Y2, Ambient Temperature, (X3<<8+X4)*0.02-273.15, Degree);
+}
+
+Function3(Read Object Temperature Data){
+
+  DW(RS485, 3, 0x03, 0x9C, 0x42),+5ms;
+  DR(RS485, 2,  X1, X2),+100ms;
+
+}
+
+Function3(Read Object Temperature Data){
+
+  DW(RS485, 3, 0x03, 0x9C, 0x43),+5ms;
+  DR(RS485, 2,  X3, X4),+100ms;
+
+}
+
+
+

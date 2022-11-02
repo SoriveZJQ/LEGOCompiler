@@ -1,0 +1,18 @@
+ 
+Function1(Pin Configuration){
+	PIN(1, VDD, 3.3V, Open-Drain(type2));
+	PIN(2, I2C, CLK, Open-Drain(type1));
+	PIN(3, I2C, DW/DR, Open-Drain(type1));
+	PIN(4, SR, Int, Open-Drain(type1));
+	PIN(5, GND, 0V, Open-Drain(type2));
+ }
+
+Function2(Data Computation){
+	DF(Y1,Pressure,1.25*(X2*pow(2,16)+X3*pow(2,8)+X4-0.5*pow(2,24))/pow(2,24)*0.8*pow(2,24),inH2O);
+	DF(Y2,Temperature, (((X5*pow(2,16)+X6*pow(2,8)+X7)*150)/(pow(2,24)-40)), C);
+}
+
+Function3(Read Pressure and Tempreture Data){
+	DR(3, 0xF1, 0xAA, 7,X1,X2,X3,X4,X5,X6,X7),+5ms;
+}
+

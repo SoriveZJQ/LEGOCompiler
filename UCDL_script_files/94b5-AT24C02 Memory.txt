@@ -1,0 +1,25 @@
+ 
+Function1(Pin Configuration){
+	Pin(1, CW, CW, Open-Drain(type2));
+	Pin(2, CW, CW, Open-Drain(type2));
+	Pin(3, CW, CW, Open-Drain(type2));
+	Pin(4, GND, 0V, Open-Drain(type2));
+	Pin(5, I2C, DR/DW, Open-Drain(type1));
+	Pin(6, I2C, CLK, Open-Drain(type1));
+	Pin(7, CW, CW, Open-Drain(type1));
+	Pin(8, VCC, 5V, Open-Drain(type2));
+}
+
+Function2(Set Address){
+	CW(1, L),+2us;
+	CW(2, L),+2us;
+	CW(3, L),+2us;
+}
+
+Function3(Read All Data){
+	DR(5,0xA1,0x00,256),+100ms;
+}
+
+Function4(Write Data){
+	DW(5,0xA0,0x00,DIRECT),+100ms;
+}

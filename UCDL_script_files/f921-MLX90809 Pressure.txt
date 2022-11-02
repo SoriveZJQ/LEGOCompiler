@@ -1,0 +1,15 @@
+ 
+Function1(Pin Configuration){
+    PIN(1, VCC, 5V, Open-Drain(type2));
+    PIN(2, SENT, DR/DW, Open-Drain(type1));
+    PIN(3, GND, 0V, Open-Drain(type2));
+}
+
+Function2(Data Computation){
+    DF(Y1, rawData, X1<<8+X2<<4+X3, null);
+    DF(Y2, Pressure, (y=rawData/4096*3, rawData<2048; y=(rawData-4096)/4096*3-1.5, rawData>=2048), %FSO);
+}
+
+Function3(Get Raw Data){
+    DR(2, 6, X1, X2, X3, X4, X5, X6), +1ms;
+}

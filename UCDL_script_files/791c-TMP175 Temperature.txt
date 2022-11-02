@@ -1,0 +1,19 @@
+Description file: TMP175
+
+Function1(Pin Configuration){
+  PIN(1, I2C, DR/DW, Open-Drain(type1));
+  PIN(2, I2C, CLK, Open-Drain(type1));
+  PIN(3, SR, Int, Open-Drain(type1));
+  PIN(4, GND, 0V, Open-Drain(type2));
+  PIN(8, VDD, 3.3V, Open-Drain(type2)); 
+}
+
+Function2(Read Ambient Temprature Register Data){
+  DR(1, 0x91, 0x00, 2, X1, X2), +220ms;  
+}
+
+Function3(Data Computation){
+  DF(Y1, temp1, X1<<4+X2>>4, null);
+  DF(Y2, temp2, (y=temp1,temp1<2048;y=temp1-4096,temp1>=2048), null);
+  DF(Y3, Temperature, temp2*0.0625, degree C);
+}

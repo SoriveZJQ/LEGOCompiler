@@ -1,0 +1,76 @@
+ 
+Function1(Pin Configuration){
+    PIN(1, SPI, DR, Push-Pull(input));
+    PIN(2, SPI, DW, Push-Pull(output));
+    PIN(3, SPI, CLK, Push-Pull(output));
+    PIN(4, CW, CS, Push-Pull(output));
+    PIN(5, GND, 0V, Open-Drain(type2));
+    PIN(6, VDD, 3.3V, Open-Drain(type2));
+    PIN(7, VDD, 3.3V, Open-Drain(type2));
+}
+
+Function2(Data Computation){
+    DF(Y1, C1, X1<<8+X2, null);
+    DF(Y2, C2, X3<<8+X4, null);
+    DF(Y3, C3, X5<<8+X6, null);
+    DF(Y4, C4, X7<<8+X8, null);
+    DF(Y5, C5, X9<<8+X10, null);
+    DF(Y6, C6, X11<<8+X12, null);
+    DF(Y7, D1, X13<<16+X14<<8+X15, null);
+    DF(Y8, D2, X16<<16+X17<<8+X18, null);
+    DF(Y9, dT, D2-C5*128, null);
+    DF(Y10, temperature, 2000+dT*C6/pow(2, 21), degree C);
+    DF(Y11, OFF, C2*pow(2, 17)+(C3*dT)/128, null);
+    DF(Y12, SENS, C1*pow(2, 15)+(C3*dT)/128, null);
+    DF(Y13, Pressure, (D1*SENS/pow(2, 21)-OFF)/pow(2, 15), psi);
+}
+
+Function3(Reset){
+    CW(4, L),+2us;
+    DW(2, 1, 0x1E),+3ms;
+    CW(4, H),+2us;
+}
+
+Function4(Read Calibration Data){
+    CW(4, L),+2us;
+    DW(2, 1, 0xA1),+2us;
+    DR(1, 2, X1, X2),+2us;
+    DW(2, 1, 0xA2),+2us;
+    DR(1, 2, X3, X4),+2us;
+    DW(2, 1, 0xA3),+2us;
+    DR(1, 2, X5, X6),+2us;
+    DW(2, 1, 0xA4),+2us;
+    DR(1, 2, X7, X8),+1us;
+    DW(2, 1, 0xA5),+2us;
+    DR(1, 2, X9, X10),+2us;
+    DW(2, 1, 0xA6),+2us;
+    DR(1, 2, X11, X12),+2us;
+    CW(4, H),+2us;
+}
+
+Function4(Read Pressure Register Data){
+    CW(4, L),+2us;
+    DW(2, 1, 0x48),+9ms;
+    CW(4, H),+2us;
+
+    CW(4, L),+2us;
+    DW(2, 1, 0x00),+2us;
+    DR(1, 3, X13, X14, X15),+1us;
+    CW(4, H),+2us;
+}
+
+Function5(Read Temprature Register Data){
+    CW(4, L),+2us;
+    DW(2, 1, 0x58),+9ms;
+    CW(4, H),+2us;
+
+    CW(4, L),+2us;
+    DW(2, 1, 0x00),+2us;
+    DR(1, 3, X16, X17, X18),+1us;
+    CW(4, H),+2us;
+}
+
+
+
+
+

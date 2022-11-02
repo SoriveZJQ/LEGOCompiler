@@ -1,0 +1,37 @@
+ 
+Function1(Pin Configuration){
+PIN(1, GND, 0V, Open-Drain(type2));
+PIN(2, GND, 0V, Open-Drain(type2));
+PIN(3, GND, 0V, Open-Drain(type2));
+PIN(4, SR, Int, Open-Drain(type1));
+PIN(5, I2C, CLK, Open-Drain(type1));
+PIN(6, GND, 0V, Open-Drain(type2));
+PIN(7, VDD, 3.3V, Open-Drain(type2));
+PIN(8, I2C, DR/DW, Open-Drain(type1));
+PIN(9, GND, 0V, Open-Drain(type2));
+PIN(10, GND, 0V, Open-Drain(type2));
+PIN(11, GND, 0V, Open-Drain(type2));
+}
+
+Function2(Data Computation){
+  DF(Y1, temp1, X1<<8+X2, null);
+  DF(Y2, temp2, (y=temp1,temp1<32768;y=temp1-65536,temp1>=32768), null);
+  DF(Y3, DiffPressure,temp2/60, Pa);
+  DF(Y4, temp3,X3<<8+X4, null);
+  DF(Y5, temp4, (y=temp3,temp3<32768;y=temp3-65536,temp3>=32768), null);
+  DF(Y6, Temperature, temp4/200, degree C);
+}
+
+Function3(Read Pressure Register Data){
+
+  DW(8, 0x42, 0x36, 1, 0x15),+100us;
+  DR(8, NOADDR, 0x43, 2, X1, X2),+45ms;
+  
+}
+
+Function4(Read Temprature Register Data){
+
+  DW(8, 0x42, 0x36, 1, 0x03),+100us;
+  DR(8, NOADDR, 0x43, 2, X3, X4),+45ms;
+
+}
